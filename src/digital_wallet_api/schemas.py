@@ -28,3 +28,14 @@ class Wallet(WalletBase):
 
     class Config:
         orm_mode = True
+
+
+class Transaction(BaseModel):
+    id: int
+    transaction_date: datetime
+    from_user_id: int
+    to_user_id: int
+    amoount: float
+
+    class Config:
+        orm_mode = True
