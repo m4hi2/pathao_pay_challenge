@@ -1,4 +1,5 @@
 from datetime import datetime
+from email.policy import default
 
 from sqlalchemy import Column, DateTime, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
@@ -13,19 +14,9 @@ class User(Base):
     name = Column(String(255), index=True)
     hashed_pin = Column(String)
     created_at = Column(DateTime(timezone=True), default=datetime.utcnow)
-
-    wallet = relationship("Wallet", back_populates="user", uselist=False)
-
-
-class Wallet(Base):
-    __tablename__ = "wallets"
-
-    id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"))
     # balance is kept as "paisa" instead of taka, to prevent
     # rounding/foating point airethmatic errors.
     balance = Column(Integer, default=500000)
-    user = relationship("User", back_populates="wallet")
 
 
 class Transaction(Base):

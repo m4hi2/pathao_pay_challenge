@@ -13,18 +13,7 @@ class UserCreate(UserBase):
 class User(UserBase):
     id: int
     created_at: datetime
-
-    class Config:
-        orm_mode = True
-
-
-class WalletBase(BaseModel):
     balance: float
-
-
-class Wallet(WalletBase):
-    id: int
-    user_id: int
 
     class Config:
         orm_mode = True
