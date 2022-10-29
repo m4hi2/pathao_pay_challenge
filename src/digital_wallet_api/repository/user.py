@@ -9,7 +9,7 @@ def get_user_by_id(db: Session, user_id: id):
 
 def create_user(db: Session, user: schemas.UserCreate):
     hashed_pin = user.pin
-    db_user = models.User(name=user.name, pin=hashed_pin)
+    db_user = models.User(name=user.name, hashed_pin=hashed_pin)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
