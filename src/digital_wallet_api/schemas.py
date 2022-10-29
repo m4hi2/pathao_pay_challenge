@@ -16,3 +16,12 @@ class User(UserBase):
 
     class Config:
         orm_mode = True
+
+
+class WalletBase(BaseModel):
+    balance: float
+
+
+class Wallet(WalletBase):
+    id: int
+    user_id: int
