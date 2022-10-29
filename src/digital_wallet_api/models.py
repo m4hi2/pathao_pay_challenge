@@ -1,8 +1,6 @@
 from datetime import datetime
-from email.policy import default
 
-from sqlalchemy import Column, DateTime, Integer, String, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, DateTime, Integer, String, Float
 
 from .database import Base
 
@@ -14,9 +12,7 @@ class User(Base):
     name = Column(String(255), index=True)
     hashed_pin = Column(String)
     created_at = Column(DateTime(timezone=True), default=datetime.utcnow)
-    # balance is kept as "paisa" instead of taka, to prevent
-    # rounding/foating point airethmatic errors.
-    balance = Column(Integer, default=500000)
+    balance = Column(Float, default=5000)
 
 
 class Transaction(Base):
@@ -26,6 +22,4 @@ class Transaction(Base):
     transaction_date = Column(DateTime(timezone=True), default=datetime.utcnow)
     from_user_id = Column(Integer, index=True)
     to_user_id = Column(Integer, index=True)
-    # ammount is kept as "paisa" instead of taka, to prevent
-    # rounding/foating point airethmatic errors.
-    ammount = Column(Integer)
+    ammount = Column(Float)
