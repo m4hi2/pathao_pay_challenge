@@ -35,7 +35,7 @@ class Transaction(BaseModel):
     transaction_date: datetime
     from_user_id: int
     to_user_id: int
-    amoount: float
+    amount: float
 
     class Config:
         orm_mode = True
