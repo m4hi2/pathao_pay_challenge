@@ -15,8 +15,6 @@ class User(Base):
     created_at = Column(DateTime(timezone=True), default=datetime.utcnow)
 
     wallet = relationship("Wallet", back_populates="user", uselist=False)
-    send_transactions = relationship("Transaction", back_populates="from_user")
-    receive_transactions = relationship("Transaction", back_populates="to_user")
 
 
 class Wallet(Base):
@@ -35,12 +33,8 @@ class Transaction(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     transaction_date = Column(DateTime(timezone=True), default=datetime.utcnow)
-    from_user_id = Column(
-        Integer, ForeignKey("users.id", ondelete="CASCADE"), index=True
-    )
-    to_user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), index=True)
+    from_user_id = Column(Integer, index=True)
+    to_user_id = Column(Integer, index=True)
     # ammount is kept as "paisa" instead of taka, to prevent
     # rounding/foating point airethmatic errors.
     ammount = Column(Integer)
-    from_user = relationship("User", back_populates="send_transactions")
-    to_user = relationship("User", back_populates="receive_transactions")
