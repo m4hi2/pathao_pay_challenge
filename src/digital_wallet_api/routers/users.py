@@ -10,6 +10,10 @@ router = APIRouter(tags=["Users"], prefix="/users")
 @router.post("/", response_model=schemas.User)
 def signup(user: schemas.UserCreate, db: Session = Depends(get_db)):
     db_user = repository.user.create_user(db, user=user)
+    if not db_user:
+        raise HTTPException(
+            status_code=status.HTTP_406_NOT_ACCEPTABLE, detail="Pin must be of 5 digits"
+        )
     return db_user
 
 
