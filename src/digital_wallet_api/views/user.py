@@ -39,7 +39,9 @@ def verify_pin_requirements(pin: str) -> bool:
 
 def transfer(user_id, transfer_request: schemas.TransferRequest, db: Session):
     from_user_id = user_id
+    get_user_or_raise(user_id=from_user_id, db=db)
     to_user_id = transfer_request.to_user_id
+    get_user_or_raise(user_id=to_user_id, db=db)
     amount_in_taka = transfer_request.amount
 
     amount_in_paisa = convert_taka_to_paisha(amount_in_taka)
@@ -57,6 +59,7 @@ def transfer(user_id, transfer_request: schemas.TransferRequest, db: Session):
 
 
 def get_transactions(user_id: int, db: Session):
+    get_user_or_raise(user_id=user_id, db=db)
     transactions = repository.transaction.get_user_transactions(db=db, user_id=user_id)
     transactions_converted = list(map(convert_transaction_to_use_taka, transactions))
     return schemas.Transactions(transactions=transactions_converted)
@@ -92,3 +95,11 @@ def convert_paisa_to_taka(amount: int) -> float:
     taka_amount = amount / 100
 
     return taka_amount
+
+
+def get_user_or_raise(user_id: int, db: Session):
+    if not repository.user.get_user_by_id(db=db, id=user_id):
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"UserID {user_id} doesn't exists ",
+        )
