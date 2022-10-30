@@ -6,6 +6,15 @@ from digital_wallet_api import models, schemas
 
 
 def create_transaction(db: Session, transaction: schemas.TransactionCreate):
+    """Creates a transation record for a balance transfer
+
+    Args:
+        db (Session): database connection
+        transaction (schemas.TransactionCreate): the transaction to create
+
+    Returns:
+        transaction (schemas.Transaction): created transaction
+    """
     db_transaction = models.Transaction(
         transaction_id=str(uuid4()),
         amount=transaction.amount,
@@ -19,6 +28,15 @@ def create_transaction(db: Session, transaction: schemas.TransactionCreate):
 
 
 def get_user_transactions(db: Session, user_id: int):
+    """Gets all transactions related to a user.
+
+    Args:
+        db (Session): database connection
+        user_id (int): the userID whose transactions to get
+
+    Returns:
+        transactions (schemas.Transactions): list of transactions for the given user
+    """
     transactions = (
         db.query(models.Transaction)
         .filter(
