@@ -56,7 +56,7 @@ def convert_paisa_to_taka(amount: int) -> float:
     return taka_amount
 
 
-def get_user_or_raise(user_id: int, db: Session):
+def check_if_user_exists(user_id: int, db: Session):
     if not repository.user.get_user_by_id(db=db, id=user_id):
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
