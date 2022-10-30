@@ -86,6 +86,15 @@ def convert_paisa_to_taka(amount: int) -> float:
 
 
 def check_if_user_exists(user_id: int, db: Session):
+    """Checks if a user exists in the system.
+
+    Args:
+        user_id (int): user id to check
+        db (Session): database connection
+
+    Raises:
+        HTTPException: user doesn't exists
+    """
     if not repository.user.get_user_by_id(db=db, id=user_id):
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
