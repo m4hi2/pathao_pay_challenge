@@ -32,6 +32,7 @@ API documentation is generated with Swagger. Those are accessible at [Swagger Do
 - For system wallet, the sum is done in python code, should do it using sql sum fucntion
 - Proper logging
 - Exceptions and crash monitoring with service like sentry.io
+- Have to write tests
 
 ## Chosen Techstack
 
