@@ -20,6 +20,12 @@ The api base should be accessible at [localhost:8000](http://127.0.0.1:8000) onc
 
 API documentation is generated with Swagger. Those are accessible at [Swagger Documentation](http://127.0.0.1:8000/docs) or [Redocly](http://127.0.0.1:8000/redoc) once the docker containers are running.
 
+## Important Notes about authentication
+
+For the authentication form, the default FastAPI OAuth form is used, this has caused some trouble in terminology.
+`username` -> `email` in our system.
+`password` -> `pin` in out sysmte.
+
 ## Some decisions
 
 - All balance in system is stored as integers
