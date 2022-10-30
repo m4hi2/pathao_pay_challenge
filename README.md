@@ -20,6 +20,19 @@ The api base should be accessible at [localhost:8000](http://127.0.0.1:8000) onc
 
 API documentation is generated with Swagger. Those are accessible at [Swagger Documentation](http://127.0.0.1:8000/docs) or [Redocly](http://127.0.0.1:8000/redoc) once the docker containers are running.
 
+## Some decisions
+
+- All balance in system is stored as integers
+  - This is done to prevent floating point arithmetic and rounding erros
+
+## Things to improve
+
+- For some reason api docekr container starts before db container, even after using depends
+- User.transaction relationship doesn't work, gathering user transactions directly from transaction table
+- For system wallet, the sum is done in python code, should do it using sql sum fucntion
+- Proper logging
+- Exceptions and crash monitoring with service like sentry.io
+
 ## Chosen Techstack
 
 - Language: Python
