@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 
 from digital_wallet_api import models, schemas
+from digital_wallet_api.auth.hasing import Hash
 from .wallet import (
     add_amount_to_wallet,
     charge_wallet,
@@ -21,7 +22,7 @@ def create_user(db: Session, user: schemas.UserCreate):
     if get_user_by_email(db, user.email):
         return None
 
-    hased_pin = user.pin
+    hased_pin = Hash.bcrypt(user.pin)
     db_user = models.User(email=user.email, name=user.name, pin=hased_pin)
     db.add(db_user)
     db.commit()
