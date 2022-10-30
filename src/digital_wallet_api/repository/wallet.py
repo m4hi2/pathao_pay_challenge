@@ -19,6 +19,16 @@ def create_wallet(db: Session, user_id: int):
 
 
 def charge_wallet(db: Session, wallet: models.Wallet, amount: int):
+    """Deducts money from a users wallet.
+
+    Args:
+        db (Session): database connection
+        wallet (models.Wallet): wallet of the user
+        amount (int): the amount to deduct from the wallet
+
+    Returns:
+        wallet (schemas.Wallet): the updated wallet
+    """
     if amount > wallet.balance:
         return None
 
@@ -30,6 +40,16 @@ def charge_wallet(db: Session, wallet: models.Wallet, amount: int):
 
 
 def add_amount_to_wallet(db: Session, wallet: models.Wallet, amount: int):
+    """Adds money to a users wallet balance.
+
+    Args:
+        db (Session): database connection
+        wallet (models.Wallet): the wallet of the user
+        amount (int): the amount to add to the wallet
+
+    Returns:
+        wallet (schemas.Wallet): the updated wallet
+    """
     wallet.balance = wallet.balance + amount
 
     db.commit()
@@ -38,6 +58,14 @@ def add_amount_to_wallet(db: Session, wallet: models.Wallet, amount: int):
 
 
 def get_all_wallet_balance_sum(db: Session) -> int:
+    """Sums up all the wallet balances present in the system.
+
+    Args:
+        db (Session): database connection
+
+    Returns:
+        int: total balance in the system
+    """
     sum = 0
     wallets = db.query(models.Wallet).all()
     for wallet in wallets:
