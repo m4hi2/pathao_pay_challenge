@@ -27,6 +27,16 @@ def verify_pin_requirements(pin: str) -> bool:
 def convert_transaction_to_use_taka(
     transaction: schemas.TransactionCreate,
 ) -> schemas.Transaction:
+    """The transactions in db have amount in paisa. But we need
+    to show them in taka. This function convert the paisa value
+    to taka when creating the response model.
+
+    Args:
+        transaction (schemas.TransactionCreate): The transaction to be converted
+
+    Returns:
+        schemas.Transaction: Converted transaction
+    """
     converted_transaction = schemas.Transaction(
         transaction_date=transaction.transaction_date,
         transaction_id=transaction.transaction_id,
@@ -39,6 +49,17 @@ def convert_transaction_to_use_taka(
 
 
 def convert_taka_to_paisha(amount: float) -> int:
+    """Converts taka value to paisa
+
+    Args:
+        amount (float): amount in taka
+
+    Raises:
+        HTTPException: supports only 2 decimal digit
+
+    Returns:
+        int: paisa amount
+    """
     paisa_amount = amount * 100
     try:
         paisa_amount = int(paisa_amount)
@@ -51,6 +72,14 @@ def convert_taka_to_paisha(amount: float) -> int:
 
 
 def convert_paisa_to_taka(amount: int) -> float:
+    """Converts paisa value to taka
+
+    Args:
+        amount (int): amount in paisa
+
+    Returns:
+        taka_amount (float): amount in taka
+    """
     taka_amount = amount / 100
 
     return taka_amount
