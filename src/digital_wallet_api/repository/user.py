@@ -6,6 +6,7 @@ from .wallet import (
     charge_wallet,
     create_wallet,
 )
+from .transaction import create_transaction
 
 
 def get_user_by_id(db: Session, id: int):
@@ -35,10 +36,16 @@ def get_user_wallet(db: Session, id: int):
 
 def transfer_amount(
     db: Session, from_user_id: int, to_user_id: int, amount: int
-) -> bool:
+) -> schemas.Transaction | None:
     from_user_wallet = get_user_wallet(db, from_user_id)
     if not charge_wallet(db, from_user_wallet, amount):
-        return False
+        return None
     to_user_wallet = get_user_wallet(db, to_user_id)
     add_amount_to_wallet(db, to_user_wallet, amount)
-    return True
+    transaction = create_transaction(
+        db=db,
+        transaction=schemas.TransactionCreate(
+            from_user_id=from_user_id, to_user_id=to_user_id, amount=amount
+        ),
+    )
+    return transaction

@@ -31,8 +31,29 @@ class Wallet(Base):
     balance = Column(Integer, default=500000)
     type = Column(String, default="bdt_paisa")
 
-    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADe"))
+    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"))
     user = relationship(
         "User",
         back_populates="wallet",
+    )
+
+
+class Transaction(Base):
+    __tablename__ = "transactions"
+
+    id = Column(Integer, primary_key=True, index=True)
+    transaction_id = Column(String)
+    transaction_date = Column(DateTime(timezone=True), default=datetime.utcnow)
+    amount = Column(Integer)
+
+    from_user_id = Column(Integer, ForeignKey("users.id"))
+    to_user_id = Column(Integer, ForeignKey("users.id"))
+
+    from_user = relationship(
+        "User",
+        foreign_keys=[from_user_id],
+    )
+    to_user = relationship(
+        "User",
+        foreign_keys=[to_user_id],
     )

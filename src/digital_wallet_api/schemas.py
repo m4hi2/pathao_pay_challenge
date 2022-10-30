@@ -24,9 +24,23 @@ class TransferRequest(BaseModel):
     amount: float
 
 
-class Transaction(BaseModel):
-    transaction_date: datetime
-    transation_id: str
+class TransactionBase(BaseModel):
     from_user_id: int
     to_user_id: int
     amount: float
+
+
+class TransactionCreate(TransactionBase):
+    amount: int
+
+
+class Transaction(TransactionBase):
+    transaction_id: str
+    transaction_date: datetime
+
+    class Config:
+        orm_mode = True
+
+
+class Transactions(BaseModel):
+    transactions: list[Transaction]
