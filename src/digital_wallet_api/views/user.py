@@ -11,6 +11,19 @@ from .utils import (
 
 
 def signup(user: schemas.UserCreate, db: Session):
+    """Creates a new user with wallet and initial balalnce of 5000
+
+    Args:
+        user (schemas.UserCreate): User creation info
+        db (Session): database connection
+
+    Raises:
+        HTTPException: Pin invalid
+        HTTPException: Email already registed.
+
+    Returns:
+        user (schemas.User): created user
+    """
     if not verify_pin_requirements(user.pin):
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST, detail="Pin has to be 5 digits"
@@ -23,7 +36,20 @@ def signup(user: schemas.UserCreate, db: Session):
     return db_user
 
 
-def transfer(user_id, transfer_request: schemas.TransferRequest, db: Session):
+def transfer(user_id: int, transfer_request: schemas.TransferRequest, db: Session):
+    """Transfers balance from a users wallet to another users wallet.
+
+    Args:
+        user_id (int): userID of the from user
+        transfer_request (schemas.TransferRequest): transfer details - ammount and to user
+        db (Session): database connection
+
+    Raises:
+        HTTPException: Low balance | User doesn't exists
+
+    Returns:
+        transaction (schemas.Transaction): the transaction details
+    """
     from_user_id = user_id
     check_if_user_exists(user_id=from_user_id, db=db)
     to_user_id = transfer_request.to_user_id
@@ -45,6 +71,15 @@ def transfer(user_id, transfer_request: schemas.TransferRequest, db: Session):
 
 
 def get_transactions(user_id: int, db: Session):
+    """Gets the transation lisf for the given userID
+
+    Args:
+        user_id (int): userID of the user
+        db (Session): database connection
+
+    Returns:
+        transactions (schemas.Transactions): list of the user's transactions.
+    """
     check_if_user_exists(user_id=user_id, db=db)
     transactions = repository.transaction.get_user_transactions(db=db, user_id=user_id)
     transactions_converted = list(map(convert_transaction_to_use_taka, transactions))
