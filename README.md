@@ -33,6 +33,7 @@ API documentation is generated with Swagger. Those are accessible at [Swagger Do
 - Proper logging
 - Exceptions and crash monitoring with service like sentry.io
 - Have to write tests
+- The HTTPExceptions raised didn't make to Swagger documentation, have to look into that
 
 ## Chosen Techstack
 
