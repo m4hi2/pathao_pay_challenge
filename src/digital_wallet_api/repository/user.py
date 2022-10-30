@@ -36,7 +36,7 @@ def get_user_wallet(db: Session, id: int):
 
 def transfer_amount(
     db: Session, from_user_id: int, to_user_id: int, amount: int
-) -> schemas.Transaction | None:
+) -> schemas.TransactionCreate | None:
     from_user_wallet = get_user_wallet(db, from_user_id)
     if not charge_wallet(db, from_user_wallet, amount):
         return None

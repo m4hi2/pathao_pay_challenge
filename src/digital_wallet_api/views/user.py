@@ -53,7 +53,21 @@ def transfer(user_id, transfer_request: schemas.TransferRequest, db: Session):
             detail="Low balance on sender account.",
         )
 
-    return transaction
+    return convert_transaction_to_use_taka(transaction)
+
+
+def convert_transaction_to_use_taka(
+    transaction: schemas.TransactionCreate,
+) -> schemas.Transaction:
+    converted_transaction = schemas.Transaction(
+        transaction_date=transaction.transaction_date,
+        transaction_id=transaction.transaction_id,
+        from_user_id=transaction.from_user_id,
+        to_user_id=transaction.to_user_id,
+        amount=convert_paisa_to_taka(transaction.amount),
+    )
+
+    return converted_transaction
 
 
 def convert_taka_to_paisha(amount: float) -> int:
