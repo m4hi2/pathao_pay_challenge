@@ -37,4 +37,5 @@ def get_user_balance(
     db: Session = Depends(get_db),
     current_user: schemas.User = Depends(get_current_user),
 ):
+    """Get balance of authorized user."""
     return views.user.get_user_balance(user_email=current_user.email, db=db)
