@@ -44,3 +44,6 @@ class Transaction(TransactionBase):
 
 class Transactions(BaseModel):
     transactions: list[Transaction]
+
+    class Config:
+        orm_mode = True

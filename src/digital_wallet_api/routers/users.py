@@ -17,3 +17,8 @@ def transfer_balance(
     id: int, transfer_request: schemas.TransferRequest, db: Session = Depends(get_db)
 ):
     return views.user.transfer(user_id=id, transfer_request=transfer_request, db=db)
+
+
+@router.get("/{id}/transactions", response_model=schemas.Transactions)
+def get_user_transactions(id: int, db: Session = Depends(get_db)):
+    return views.user.get_transactions(user_id=id, db=db)

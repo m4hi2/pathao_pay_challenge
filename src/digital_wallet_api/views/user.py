@@ -56,6 +56,12 @@ def transfer(user_id, transfer_request: schemas.TransferRequest, db: Session):
     return convert_transaction_to_use_taka(transaction)
 
 
+def get_transactions(user_id: int, db: Session):
+    transactions = repository.transaction.get_user_transactions(db=db, user_id=user_id)
+    transactions_converted = list(map(convert_transaction_to_use_taka, transactions))
+    return schemas.Transactions(transactions=transactions_converted)
+
+
 def convert_transaction_to_use_taka(
     transaction: schemas.TransactionCreate,
 ) -> schemas.Transaction:
