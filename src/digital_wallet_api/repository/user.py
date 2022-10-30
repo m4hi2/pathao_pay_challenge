@@ -5,7 +5,6 @@ from .wallet import (
     add_amount_to_wallet,
     charge_wallet,
     create_wallet,
-    get_wallet_by_user_id,
 )
 
 
@@ -31,7 +30,7 @@ def create_user(db: Session, user: schemas.UserCreate):
 
 
 def get_user_wallet(db: Session, id: int):
-    return get_wallet_by_user_id(db=db, user_id=id)
+    return db.query(models.User).filter(models.User.id == id).first().wallet[0]
 
 
 def transfer_amount(

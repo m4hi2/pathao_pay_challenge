@@ -18,7 +18,6 @@ class User(Base):
         "Wallet",
         back_populates="user",
         cascade="all, delete",
-        lazy="dynamic",
         passive_deletes=True,
     )
 
@@ -33,4 +32,7 @@ class Wallet(Base):
     type = Column(String, default="bdt_paisa")
 
     user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADe"))
-    user = relationship("User", back_populates="wallet")
+    user = relationship(
+        "User",
+        back_populates="wallet",
+    )

@@ -18,11 +18,6 @@ def create_wallet(db: Session, user_id: int):
     return db_wallet
 
 
-def get_wallet_by_user_id(db: Session, user_id: int):
-    db_wallet = db.query(models.Wallet).filter(models.Wallet.user_id == user_id).first()
-    return db_wallet
-
-
 def charge_wallet(db: Session, wallet: models.Wallet, amount: int):
     if amount > wallet.balance:
         return None
