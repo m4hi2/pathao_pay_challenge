@@ -9,4 +9,5 @@ router = APIRouter(tags=["System"], prefix="/system")
 
 @router.get("/", response_model=schemas.SystemBalance)
 def get_system_balance(db: Session = Depends(get_db)):
+    """Gets the total system balance. Balance of all walltes summed."""
     return views.wallet.get_system_balance(db=db)
