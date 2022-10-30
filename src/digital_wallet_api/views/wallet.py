@@ -1,7 +1,7 @@
-from fastapi import status, HTTPException
+from digital_wallet_api import repository, schemas
 from sqlalchemy.orm import Session
-from digital_wallet_api import schemas, repository
-from .user import convert_paisa_to_taka
+
+from .utils import convert_paisa_to_taka
 
 
 def get_system_balance(db: Session):
