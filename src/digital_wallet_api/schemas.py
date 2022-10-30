@@ -47,3 +47,10 @@ class Transactions(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class SystemBalance(BaseModel):
+    balance: float
+
+    class Config:
+        orm_mode = True

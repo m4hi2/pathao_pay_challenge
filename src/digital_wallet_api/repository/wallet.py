@@ -35,3 +35,12 @@ def add_amount_to_wallet(db: Session, wallet: models.Wallet, amount: int):
     db.commit()
     db.refresh(wallet)
     return wallet
+
+
+def get_all_wallet_balance_sum(db: Session) -> int:
+    sum = 0
+    wallets = db.query(models.Wallet).all()
+    for wallet in wallets:
+        sum += wallet.balance
+
+    return sum
