@@ -3,9 +3,9 @@ from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
 from .utils import (
+    check_if_user_exists,
     convert_taka_to_paisha,
     convert_transaction_to_use_taka,
-    check_if_user_exists,
     verify_pin_requirements,
 )
 
@@ -54,6 +54,12 @@ def transfer(user_id: int, transfer_request: schemas.TransferRequest, db: Sessio
     check_if_user_exists(user_id=from_user_id, db=db)
     to_user_id = transfer_request.to_user_id
     check_if_user_exists(user_id=to_user_id, db=db)
+
+    if from_user_id == to_user_id:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Sender and reciver can not be same.",
+        )
     amount_in_taka = transfer_request.amount
 
     amount_in_paisa = convert_taka_to_paisha(amount_in_taka)
