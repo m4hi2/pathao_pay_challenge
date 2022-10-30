@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 
 from digital_wallet_api import models, schemas
+from .wallet import create_wallet
 
 
 def get_user_by_id(db: Session, id: int):
@@ -20,4 +21,5 @@ def create_user(db: Session, user: schemas.UserCreate):
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
+    create_wallet(db=db, user_id=db_user.id)
     return db_user
