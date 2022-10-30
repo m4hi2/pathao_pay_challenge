@@ -17,3 +17,16 @@ class User(UserBase):
 
     class Config:
         orm_mode = True
+
+
+class TransferRequest(BaseModel):
+    to_user_id: int
+    amount: float
+
+
+class Transaction(BaseModel):
+    transaction_date: datetime
+    transation_id: str
+    from_user_id: int
+    to_user_id: int
+    amount: float
