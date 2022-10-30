@@ -9,6 +9,6 @@ class User(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(255))
-    email = Column(String(255), index=True)
+    email = Column(String(255), index=True, unique=True)
     pin = Column(String)
     created_at = Column(DateTime(timezone=True), default=datetime.utcnow)
