@@ -2,6 +2,7 @@ version: '3.9'
 services:
   postgres:
     image: postgres:14
+    container_name: postgres
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
@@ -14,3 +15,16 @@ services:
       - '5438:5432'
     volumes: 
       - ./.docker/postgres-data:/var/lib/postgresql/data
+
+  digital_wallet:
+    build: .
+    container_name: digital_wallet
+    depends_on:
+      - postgres
+    links:
+      - "postgres:postgres"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/wallet
+    ports:
+      - '8000:8000'
+    restart: "always"
