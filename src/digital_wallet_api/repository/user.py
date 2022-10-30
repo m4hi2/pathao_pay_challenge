@@ -50,3 +50,8 @@ def transfer_amount(
         ),
     )
     return transaction
+
+
+def get_user_balance(db: Session, user_email: str):
+    wallet = get_user_by_email(db=db, email=user_email).wallet[0]
+    return schemas.UserBalance(balance=wallet.balance, user_email=user_email)

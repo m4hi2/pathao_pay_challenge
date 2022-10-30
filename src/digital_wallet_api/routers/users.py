@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from digital_wallet_api import schemas, views
 from digital_wallet_api.database import get_db
-
+from digital_wallet_api.auth.oauth2 import get_current_user
 
 router = APIRouter(tags=["Users"], prefix="/users")
 
@@ -30,3 +30,11 @@ def transfer_balance(
 def get_user_transactions(id: int, db: Session = Depends(get_db)):
     """Returns a list of transactions that is related to the User{id}"""
     return views.user.get_transactions(user_id=id, db=db)
+
+
+@router.get("/me/balance", response_model=schemas.UserBalance)
+def get_user_balance(
+    db: Session = Depends(get_db),
+    current_user: schemas.User = Depends(get_current_user),
+):
+    return views.user.get_user_balance(user_email=current_user.email, db=db)

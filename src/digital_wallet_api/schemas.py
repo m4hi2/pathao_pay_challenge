@@ -1,5 +1,6 @@
 from datetime import datetime
 from pydantic import BaseModel
+from typing import Optional
 
 
 class UserBase(BaseModel):
@@ -14,6 +15,14 @@ class UserCreate(UserBase):
 class User(UserBase):
     id: int
     created_at: datetime
+
+    class Config:
+        orm_mode = True
+
+
+class UserBalance(BaseModel):
+    balance: float
+    user_email: str
 
     class Config:
         orm_mode = True
@@ -47,6 +56,15 @@ class Transactions(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+
+class TokenData(BaseModel):
+    email: Optional[str] = None
 
 
 class SystemBalance(BaseModel):

@@ -90,3 +90,7 @@ def get_transactions(user_id: int, db: Session):
     transactions = repository.transaction.get_user_transactions(db=db, user_id=user_id)
     transactions_converted = list(map(convert_transaction_to_use_taka, transactions))
     return schemas.Transactions(transactions=transactions_converted)
+
+
+def get_user_balance(user_email: str, db: Session):
+    return repository.user.get_user_balance(db=db, user_email=user_email)
