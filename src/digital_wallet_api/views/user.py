@@ -3,6 +3,7 @@ from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
 from .utils import (
+    convert_paisa_to_taka,
     check_if_user_exists,
     convert_taka_to_paisha,
     convert_transaction_to_use_taka,
@@ -93,4 +94,6 @@ def get_transactions(user_id: int, db: Session):
 
 
 def get_user_balance(user_email: str, db: Session):
-    return repository.user.get_user_balance(db=db, user_email=user_email)
+    wallet = repository.user.get_user_balance(db=db, user_email=user_email)
+    balance_in_taka = convert_paisa_to_taka(wallet.balance)
+    return schemas.UserBalance(balance=balance_in_taka, user_email=user_email)
